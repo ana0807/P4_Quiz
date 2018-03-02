@@ -87,7 +87,7 @@ exports.testCmd=(rl,id)=> {
             const quiz = model.getByIndex(id);
 
             rl.question(colorize(`${quiz.question}`,'red') , resp=>{
-                if (resp === quiz.answer) {
+                if (resp.trim().toLowerCase() === quiz.answer.toLowerCase()) {
                     biglog('CORRECTO', 'green');
 
                 } else {
@@ -199,8 +199,8 @@ playOne();
 
 exports.creditsCmd=rl=>{
     log('Autores de la practica:','red');
-    log('Ana Martínez','green');
-    log('Selene Pérez','green');
+    log('ANA','green');
+    log('SELENE','green');
     rl.prompt();
 };
 
