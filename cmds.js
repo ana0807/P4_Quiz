@@ -171,10 +171,10 @@ exports.playCmd=rl=>{
     const playOne = ()=>{
    
     if (toBeResolved===null) {
-        log('No hay nada más que preguntar');
+        errorlog(`No hay nada más que preguntar`);
                 log(`Fin del juego. Aciertos: ${score}`);
-                biglog(score,'magenta');
-rl.prompt();
+                //biglog(score,'magenta');
+                rl.prompt();
 
     }else {
         let indice = Math.floor(Math.random(toBeResolved.length))
@@ -190,8 +190,8 @@ rl.prompt();
 
             } else{
             log('INCORRECTO./n');
-log('Fin del Juego. Aciertos: ' +score);
-    biglog(score,'magenta');
+//log('Fin del Juego. Aciertos: ' +score);
+    //biglog(score,'magenta');
                 rl.prompt();
         }
 
