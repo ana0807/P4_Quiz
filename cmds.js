@@ -190,8 +190,8 @@ exports.playCmd=rl=>{
 
             } else{
             log(`Resultad incorrecto. Totales correctas: ${colorize(score,'magenta')}`);
-//log('Fin del Juego. Aciertos: ' +score);
-    //biglog(score,'magenta');
+log(`Fin del Juego. Aciertos: ${score}` );
+    biglog(score,'magenta');
                 rl.prompt();
         }
 
