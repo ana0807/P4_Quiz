@@ -165,11 +165,11 @@ exports.playCmd=rl=>{
     let i=0;
 
     for (i= 0; i<model.getAll().length;i++){
-        toBeResolved[i]=i+1;
+        toBeResolved[i]=i;
     }
 
     const playOne = ()=>{
-        let j=0;
+       /* let j=0;
         let numpreguntashechas=0;
         
         for(j=0;j<toBeResolved.length;j++){
@@ -210,14 +210,16 @@ log('Fin del Juego. Aciertos: ' +score);
 
 playOne();
 }
-
+*/
 
                        
                 
                
-    /*if (toBeResolved===null) {
-        errorlog(`No hay preguntas`);
-        rl.prompt();
+    if (toBeResolved===null) {
+        log('No hay nada más que preguntar');
+                log(`Fin del juego. Aciertos: ${score}');
+                biglog(score,'magenta');
+rl.prompt();
 
     }else {
         let indice = Math.floor(Math.random(toBeResolved.length))
@@ -226,12 +228,16 @@ playOne();
 
         rl.question(colorize(`${quiz.question}`,'red'), resp => {
             if (resp===quiz.answer){
-             log(`Llevas acertadas ${colorize(score++,'magenta')}`);
-             score++;
+                score++;
+             log('CORRECTO - Lleva  ${score} aciertos');
+             
              playOne();
 
             } else{
-            log(`Resultado incorrecto. Totales correctas: ${colorize(score, 'magenta')}`);
+            log('INCORRECTO./n');
+log('Fin del Juego. Aciertos: ' +score);
+    biglog(score,'magenta');
+                rl.prompt();
         }
 
         });rl.prompt();
@@ -241,7 +247,7 @@ playOne();
 playOne();
 
    // log('Jugar.','red');
-   // rl.prompt();*/
+   // rl.prompt();
 };
 
 
