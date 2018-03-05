@@ -183,13 +183,13 @@ exports.playCmd=rl=>{
 
         rl.question(colorize(`${quiz.question}`,'red'), resp => {
             if (resp===quiz.answer){
-                score++;
-             log(`CORRECTO - Lleva  ${score} aciertos`);
-             
+                
+             log(`CORRECTO - Lleva  ${colorize(score++,'magenta')} aciertos`);
+             score++;
              playOne();
 
             } else{
-            log('INCORRECTO');
+            log(`Resultad incorrecto. Totales correctas: ${colorize(score,'magenta')}`);
 //log('Fin del Juego. Aciertos: ' +score);
     //biglog(score,'magenta');
                 rl.prompt();
