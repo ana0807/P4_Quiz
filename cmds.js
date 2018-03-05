@@ -217,7 +217,7 @@ playOne();
                
     if (toBeResolved===null) {
         log('No hay nada más que preguntar');
-                log(`Fin del juego. Aciertos: ${score}');
+                log(`Fin del juego. Aciertos: ${score}`);
                 biglog(score,'magenta');
 rl.prompt();
 
