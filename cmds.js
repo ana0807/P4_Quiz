@@ -165,19 +165,19 @@ exports.playCmd=rl=>{
     let i=0;
 
     for (i= 0; i<model.getAll().length;i++){
-        toBeResolved[i]=i;
+        toBeResolved[i]=model.getByIndex(i);
     }
 
     const playOne = ()=>{
    
-    if (toBeResolved===null) {
-        errorlog(`No hay nada más que preguntar`);
-                //log(`Fin del juego. Aciertos: ${score}`);
-                //biglog(score,'magenta');
+    if (toBeResolved.length===0) {
+        errorlog('No hay nada más que preguntar');
+                log(`Fin del juego. Aciertos: ${score}`);
+                biglog(score,'magenta');
                 rl.prompt();
 
     }else {
-        let indice = Math.floor(Math.random(toBeResolved.length))
+        let indice = Math.floor(Math.random()*(toBeResolved.length))
 
         let quiz= toBeResolved[indice];
 
