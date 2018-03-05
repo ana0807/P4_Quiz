@@ -94,9 +94,9 @@ exports.testCmd=(rl,id)=> {
                 } else {
                     log('Su respuesta es incorrecta');
                     biglog('INCORRECTO', 'red');
-                }
+                }rl.prompt();
 
-            });rl.prompt();
+            });
 
         } catch (error) {
             errorlog(error.message);
