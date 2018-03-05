@@ -169,52 +169,7 @@ exports.playCmd=rl=>{
     }
 
     const playOne = ()=>{
-       /* let j=0;
-        let numpreguntashechas=0;
-        
-        for(j=0;j<toBeResolved.length;j++){
-            if(toBeResolved[j]===0;{
-               numpreguntashechas++
-               }
-               }
-         if (numpreguntashechas===toBeResolved.length){
-                log('No hay nada más que preguntar');
-                log(`Fin del juego. Aciertos: ${score}');
-                biglog(score,'magenta');
-rl.prompt();
-            }
-            else{
-                   let indice= Math.floor(Math.random() * (toBeResolved.length));
-                   if (toBeResolved.length > indice && toBeResolved[indice]!==0 ){
-                     const pregunta = quizz[indice];
-
-                   rl.question(colorize(`${pregunta.question}`, 'red'), resp => {
-                        if (resp.trim() === pregunta.answer){
-                        score ++;
-                        log('CORRECTO - Lleva  ${score} aciertos');
-                        toBeResolved[indice]=0;
-                	playOne();
-                	rl.prompt();
-}
-else{
-log('INCORRECTO./n');
-log('Fin del Juego. Aciertos: ' +score);
-    biglog(score,'magenta');
-    rl.prompt
-}
-        });
-    }else{
-        playOne();
-    }
-    
-
-playOne();
-}
-*/
-
-                       
-                
-               
+   
     if (toBeResolved===null) {
         log('No hay nada más que preguntar');
                 log(`Fin del juego. Aciertos: ${score}`);
@@ -229,7 +184,7 @@ rl.prompt();
         rl.question(colorize(`${quiz.question}`,'red'), resp => {
             if (resp===quiz.answer){
                 score++;
-             log('CORRECTO - Lleva  ${score} aciertos');
+             log(`CORRECTO - Lleva  ${score} aciertos`);
              
              playOne();
 
