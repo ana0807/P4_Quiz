@@ -172,7 +172,7 @@ exports.playCmd=rl=>{
    
     if (toBeResolved===null) {
         errorlog(`No hay nada más que preguntar`);
-                log(`Fin del juego. Aciertos: ${score}`);
+                //log(`Fin del juego. Aciertos: ${score}`);
                 //biglog(score,'magenta');
                 rl.prompt();
 
@@ -189,7 +189,7 @@ exports.playCmd=rl=>{
              playOne();
 
             } else{
-            log('INCORRECTO./n');
+            log('INCORRECTO');
 //log('Fin del Juego. Aciertos: ' +score);
     //biglog(score,'magenta');
                 rl.prompt();
