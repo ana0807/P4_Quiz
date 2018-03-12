@@ -118,7 +118,39 @@ exports.showCmd=(rl,id)=>{
 
 };
 
+exports.testCmd = (rl, id) => {
 
+    validateId(id)
+	.then(id => models.quiz.findById(id))
+	.then (quiz => {
+		if (!quiz) {
+			throw new Error(`No existe un quiz asociado al id=${id}.`);
+		}
+		return makeQuestion(rl, `${quiz.question}? `)
+            .then(a => {
+                if (a.trim().toLowerCase() === quiz.answer.toLowerCase()) {
+                    log("Su respuesta es correcta.");
+                    biglog('Correcta', 'green');
+                } else {
+                    console.log("Su respuesta es incorrecta.");
+                    //biglog('Incorrecta', 'red');
+                }
+
+                rl.prompt();
+            });
+	})
+	.catch(Sequelize.ValidationError, error => {
+		errorlog('El quiz es erroneo:');
+		error.errors.forEach(({message}) => errorlog(message));
+	})
+	.catch(error => {
+		errorlog(error.message);
+	})
+	.then (() => {
+		rl.prompt();
+	});
+};
+/*
 exports.testCmd=(rl,id)=> {
     if (typeof id === "undefined") {
         errorlog(`Falta el parámetro id.`);
@@ -145,7 +177,7 @@ exports.testCmd=(rl,id)=> {
         }
 
     }
-};
+};*/
    // log('Probar el quiz indicado.','red');
     //rl.prompt();
 
