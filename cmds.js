@@ -222,41 +222,60 @@ exports.playCmd=rl=>{
     }
 
     const playOne = ()=>{
+     return new Promise ((resolve, reject)=> {
    
     if (toBeResolved.length===0) {
         errorlog('No hay nada más que preguntar');
-                log(`Fin del juego. Aciertos: ${score}`);
-                biglog(score,'magenta');
-                rl.prompt();
+        log('Fin del examen. Aciertos:');
+                resolve();
+                return;
+    }
 
     }else {
         let indice = Math.floor(Math.random()*(toBeResolved.length))
 
         let quiz= toBeResolved[indice];
+        
+        makeQuestion(rl,quiz.question)
+        .then(answer => {)
 
-        rl.question(colorize(`${quiz.question}`,'red'), resp => {
             if (resp===quiz.answer){
                 
              log(`CORRECTO - Lleva  ${colorize(score++,'magenta')} aciertos`);
              score++;
-             playOne();
+                
+             resolve(playOne());
 
             } else{
-            log(`Resultad incorrecto. Totales correctas: ${colorize(score,'magenta')}`);
-log(`Fin del Juego. Aciertos: ${score}` );
-    biglog(score,'magenta');
-                rl.prompt();
+            log(`INCORRECTO`);    
+            log(`Fin del juego. Aciertos:  ${score}` );
+
+                resolve();
         }
 
-        });rl.prompt();
-    }
+        });
+    });
 }
 
-playOne();
+models.quiz.findAll({raw: true}) //el raw hace que enseñe un string solamente en lugar de todo el contenido
+  		.then(quizzes => {
+  			toBeResolved= quizzes;
+      })
+  		.then(() => {
+  		 	return playOne(); //es necesario esperar a que la promesa acabe, por eso no es un return a secas
+  		 })
+  		.catch(e => {
+  			errorlog("Error:" + e); //usar errorlog con colores
+  		})
+  		.then(() => {
+  			biglog(score, 'blue');
+  			rl.prompt();
+  		});
+}
 
    // log('Jugar.','red');
    // rl.prompt();
-};
+
 
 
 exports.creditsCmd=rl=>{
