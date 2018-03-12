@@ -135,7 +135,7 @@ exports.testCmd = (rl, id) => {
                     biglog('Correcta', 'green');
 			
                 } else {
-                    console.log("Su respuesta es incorrecta.");
+                    log("Su respuesta es incorrecta.");
                     
                 }
 
