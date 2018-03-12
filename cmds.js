@@ -217,13 +217,14 @@ exports.editCmd=(rl,id)=>{
 
 exports.playCmd = rl => {
      let score = 0;
-     var i;
-     let toBePlayed =[];
+    // var i;
+     let toBeResolved =[];
      
      const playOne = () =>{
       return new Promise (function (resolve,reject) {
-      if(toBePlayed.length === 0){
-      //Mensaje final del play
+      if(toBeResolved.length === 0){
+	      
+     
       log("Fin");
       log(` No hay más preguntas`);
       log(` Examen finalizado con : ${score} puntos`);
@@ -232,20 +233,22 @@ exports.playCmd = rl => {
       return;
       }
 
-      let pos = Math.floor(Math.random()*(toBePlayed.length-1));
-      let quiz = toBePlayed[pos];
-      toBePlayed.splice(pos,1);
+      let indice = Math.floor(Math.random()*(toBeResolved.length-1));
+      let quiz = toBeResolved[indice];
+      toBeResolved.splice(indice,1);
       
       makeQuestion(rl,quiz.question)
-      .then(answer => {
-        answer= answer.toLowerCase().trim();
-        if (answer === quiz.answer.toLowerCase().trim()){
+      .then(resp => {
+        resp= resp.toLowerCase().trim();
+	      
+        if (resp === quiz.answer.toLowerCase().trim()){
           score ++;                    
-          log(` correct `);
+          log(` CORRECTO `);
           log(`Lleva  ${score}  aciertos`);
           resolve(playOne());
+		
         }else{
-          log("incorrect");
+          log("INCORRECTO");
           log("Fin ");
           log ("Aciertos: ");
           biglog(`${score}`, 'magenta'); 
