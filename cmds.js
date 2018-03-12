@@ -125,7 +125,7 @@ exports.testCmd = (rl, id) => {
 	.then (quiz => {
 	    
 		if (!quiz) {
-			throw new Error(`No existe un quiz asociado al id=${id}.`);
+			throw new Error(`No existe un quiz asociado al id=${id}.`)
 		}
 		return makeQuestion(rl, `${quiz.question}? `)
 	    
@@ -139,7 +139,7 @@ exports.testCmd = (rl, id) => {
                     biglog('INCORRECTA', 'red');
                 }
 
-                rl.prompt();
+               //rl.prompt();
             });
 	})
 	.catch(Sequelize.ValidationError, error => {
