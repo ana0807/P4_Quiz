@@ -215,101 +215,53 @@ exports.editCmd=(rl,id)=>{
 
 };
 
-exports.playCmd =rl=>{
-	
-	let score = 0; 
-  	let toBeResolved = []; 
 
-     
+exports.playCmd = rl => {
 
-  const playOne = () => {
+  		let score = 0;
+  		let toBeResolved = [];
+     		 for (i=0; i<models.quiz.count();i++){
+        		toBeResolved[i]=i;
+      }
+
+  	const playOne = () => {
+		
         return new Promise ((resolve, reject) => {
   		if(toBeResolved.length === 0) {
-            		errorlog('No hay nada mas que preguntar');
-           		 log(`Fin del juego. Aciertos: ${score}`);
+           		 log('No hay preguntas que responder','magenta');
+           		 log(' Fin del examen. Aciertos: ');
   					resolve();
   					return;
   		}
-  				
-		id = Math.abs(Math.floor(Math.random()*toResolved.length));
-  		quiz = toBeResolved[id];
-  		    toBeResolved.splice(id, 1); 
-  		    makeQuestion(rl, quiz.question)
-  		    .then(answer => {
-            if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
-             		
-  			log(`  CORRECTO - Lleva ${score++} aciertos`);
-		        score++;
-  			resolve(playOne());
-		    
-            }else{
-              log(' INCORRECTO ');
-              log(` Fin del juego. Aciertos: ${score} `);
-  		 	resolve();
+		
+  	let pos = Math.floor(Math.random()*toBeResolved.length);
+  	let quiz = toBeResolved[pos];
+  	toBeResolved.splice(pos, 1); 
+
+  	 makeQuestion(rl, quiz.question)
+  		.then(answer => {
+            		if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
+              		
+  				log(`  CORRECTO - Lleva ${score++} aciertos`); // ¿++?
+					score++;
+  				       resolve(playOne());
+           		 }else{
+            		  log('  INCORRECTO ');
+             		  log(` Fin del juego. Aciertos: ${score} `);
+  				  resolve();
   			    }
   		    })
   	     })
   	  }
-  		model.models.quiz.findAll({raw: true}) 
+  		models.quiz.findAll({raw: true}) 
   		.then(quizzes => {
-  			toBePlayed= quizzes;
+  			toBeResolved= quizzes;
       })
   		.then(() => {
   		 	return playOne(); 
   		 })
   		.catch(e => {
-  			console.log("Error:" + e); 
-  		})
-  		.then(() => {
-  			out.biglog(score, 'blue');
-  			rl.prompt();
-  	})
-};
-/*
-exports.playCmd = rl => {
-
-  		let score = 0; //acumulov el resultado
-  		let toBePlayed = []; //array a rellenar con todas las preguntas de la BBDD. Como se consigue? Con una promesa
-
-      for (i=0; i<models.quiz.count();i++){
-        toBeResolved[i]=i;
-      }
-
-  		const playOne = () => {
-        return new Promise ((resolve, reject) => {
-  				if(toBePlayed.length === 0) {
-            log(' ¡No hay preguntas que responder!','yellow');
-            log(' Fin del examen. Aciertos: ');
-  					resolve();
-  					return;
-  				}
-  				let pos = Math.floor(Math.random()*toBePlayed.length);
-  				let quiz = toBePlayed[pos];
-  		    toBePlayed.splice(pos, 1); //lo borro porque ya no lo quiero más
-
-  		    makeQuestion(rl, quiz.question)
-  		    .then(answer => {
-            if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
-              score++;
-  				    log(`  CORRECTO - Lleva ${score} aciertos`);
-  				    resolve(playOne());
-            }else{
-              log('  INCORRECTO ');
-              log(`  Fin del juego. Aciertos: ${score} `);
-  				    resolve();
-  			    }
-  		    })
-  	     })
-  	  }
-  		models.quiz.findAll({raw: true}) //el raw hace que enseñe un string solamente en lugar de todo el contenido
-  		.then(quizzes => {
-  			toBePlayed= quizzes;
-      })
-  		.then(() => {
-  		 	return playOne(); //es necesario esperar a que la promesa acabe, por eso no es un return a secas
-  		 })
-  		.catch(e => {
-  			errorlog("Error:" + e); //usar errorlog con colores
+  			errorlog("Error:" + e); 
   		})
   		.then(() => {
   			biglog(score, 'blue');
@@ -318,7 +270,7 @@ exports.playCmd = rl => {
 }
 
 
-*/
+
 
 
 exports.creditsCmd=rl=>{
