@@ -143,7 +143,7 @@ exports.testCmd = (rl, id) => {
             });
 	})
 	.catch(Sequelize.ValidationError, error => {
-		errorlog('El quiz es erroneo.');
+		errorlog('El quiz es erroneo: ');
 		error.errors.forEach(({message}) => errorlog(message));
 	})
 	.catch(error => {
