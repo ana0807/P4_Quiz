@@ -131,11 +131,11 @@ exports.testCmd = (rl, id) => {
 	    
             .then(a => {
                 if (a.toLowerCase().trim() === quiz.answer.toLowerCase().trim()) {
-                    log("Su respuesta es correcta.");
+                    log("Su respuesta es correcta:");
                     biglog('CORRECTA', 'green');
 			
                 } else {
-                    log("Su respuesta es incorrecta.");
+                    log("Su respuesta es incorrecta:");
                     biglog('INCORRECTA', 'red');
                 }
 
