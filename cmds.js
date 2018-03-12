@@ -130,7 +130,7 @@ exports.testCmd = (rl, id) => {
 		return makeQuestion(rl, `${quiz.question}? `)
 	    
             .then(a => {
-                if (a.toLowerCase().trim() === quiz.answer.toLowerCase().trim()) {
+                if (a.toLowerCase().trim() === quiz.answer.toLowerCase()) {
                     log("Su respuesta es correcta.");
                     biglog('Correcta', 'green');
 			
