@@ -209,8 +209,58 @@ exports.editCmd=(rl,id)=>{
 
 };
 
+exports.playCmd = rl => {
 
-exports.playCmd=rl=>{
+  		let score = 0; //acumulov el resultado
+  		let toBePlayed = []; //array a rellenar con todas las preguntas de la BBDD. Como se consigue? Con una promesa
+
+      for (i=0; i<models.quiz.count();i++){
+        toBeResolved[i]=i;
+      }
+
+  		const playOne = () => {
+        return new Promise ((resolve, reject) => {
+  				if(toBePlayed.length === 0) {
+            log(' ¡No hay preguntas que responder!','yellow');
+            log(' Fin del examen. Aciertos: ');
+  					resolve();
+  					return;
+  				}
+  				let pos = Math.floor(Math.random()*toBePlayed.length);
+  				let quiz = toBePlayed[pos];
+  		    toBePlayed.splice(pos, 1); //lo borro porque ya no lo quiero más
+
+  		    makeQuestion(rl, quiz.question)
+  		    .then(answer => {
+            if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
+              score++;
+  				    log(`  CORRECTO - Lleva ${score} aciertos`);
+  				    resolve(playOne());
+            }else{
+              log('  INCORRECTO ');
+              log(`  Fin del juego. Aciertos: ${score} `);
+  				    resolve();
+  			    }
+  		    })
+  	     })
+  	  }
+  		models.quiz.findAll({raw: true}) //el raw hace que enseñe un string solamente en lugar de todo el contenido
+  		.then(quizzes => {
+  			toBePlayed= quizzes;
+      })
+  		.then(() => {
+  		 	return playOne(); //es necesario esperar a que la promesa acabe, por eso no es un return a secas
+  		 })
+  		.catch(e => {
+  			errorlog("Error:" + e); //usar errorlog con colores
+  		})
+  		.then(() => {
+  			biglog(score, 'blue');
+  			rl.prompt();
+  		})
+}
+
+/*exports.playCmd=rl=>{
     let score = 0;
 
     let toBeResolved = [];
@@ -271,7 +321,7 @@ models.quiz.findAll({raw: true}) //el raw hace que enseñe un string solamente e
   			biglog(score, 'blue');
   			rl.prompt();
   		});
-}
+}*/
 
    // log('Jugar.','red');
    // rl.prompt();
