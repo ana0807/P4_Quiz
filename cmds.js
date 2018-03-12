@@ -215,7 +215,7 @@ exports.editCmd=(rl,id)=>{
 
 };
 
-/*exports.playCmd =rl=>{
+exports.playCmd =rl=>{
 	
 	let score = 0; 
   	let toBeResolved = []; 
@@ -265,7 +265,7 @@ exports.editCmd=(rl,id)=>{
   			rl.prompt();
   	})
 };
-*/
+/*
 exports.playCmd = rl => {
 
   		let score = 0; //acumulov el resultado
@@ -318,7 +318,7 @@ exports.playCmd = rl => {
 }
 
 
-
+*/
 
 
 exports.creditsCmd=rl=>{
