@@ -215,62 +215,55 @@ exports.editCmd=(rl,id)=>{
 
 };
 
-exports.playCmd = rl => {
-     let score = 0;
-    // var i;
-     let toBeResolved =[];
-     
-     const playOne = () =>{
-      return new Promise (function (resolve,reject) {
-      if(toBeResolved.length === 0){
-	      
-     
-      log("Fin");
-      log(` No hay más preguntas`);
-      log(` Examen finalizado con : ${score} puntos`);
-      biglog(score, 'magenta');
-      resolve();
-      return;
-      }
+exports.playCmd =rl=>{
+	
+	let score = 0; 
+  	let toBeResolved = []; 
 
-      let indice = Math.floor(Math.random()*(toBeResolved.length-1));
-      let quiz = toBeResolved[indice];
-      toBeResolved.splice(indice,1);
-      
-      makeQuestion(rl,quiz.question)
-      .then(resp => {
-        resp= resp.toLowerCase().trim();
-	      
-        if (resp === quiz.answer.toLowerCase().trim()){
-          score ++;                    
-          log(` CORRECTO `);
-          log(`Lleva  ${score}  aciertos`);
-          resolve(playOne());
-		
-        }else{
-          log("INCORRECTO");
-          log("Fin ");
-          log ("Aciertos: ");
-          biglog(`${score}`, 'magenta'); 
-          resolve();         
-        }
-      });
-    });
-  }
+     
 
-    models.quiz.findAll({raw : true})
-    .then(quizzes => {
-      toBePlayed = quizzes;
-    })
-    .then(() => {
-      return playOne();
-    })
-    .catch(e =>{
-      errorlog("Error" +e);
-    })
-    .then(()=>{
-      rl.prompt();
-    });
+  const playOne = () => {
+        return new Promise ((resolve, reject) => {
+  		if(toBeResolved.length === 0) {
+            		errorlog('No hay nada mas que preguntar');
+           		 log(`Fin del juego. Aciertos: ${score}`);
+  					resolve();
+  					return;
+  		}
+  				
+		id = Math.abs(Math.floor(Math.random()*toResolved.length));
+  		quiz = toBeResolved[id];
+  		    toBeResolved.splice(id, 1); 
+  		    makeQuestion(rl, quiz.question)
+  		    .then(answer => {
+            if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
+             		
+  			log(`  CORRECTO - Lleva ${score++} aciertos`);
+		        score++;
+  			resolve(playOne());
+		    
+            }else{
+              log(' INCORRECTO ');
+              log(` Fin del juego. Aciertos: ${score} `);
+  		 	resolve();
+  			    }
+  		    })
+  	     })
+  	  }
+  		model.models.quiz.findAll({raw: true}) 
+  		.then(quizzes => {
+  			toBePlayed= quizzes;
+      })
+  		.then(() => {
+  		 	return playOne(); 
+  		 })
+  		.catch(e => {
+  			console.log("Error:" + e); 
+  		})
+  		.then(() => {
+  			out.biglog(score, 'blue');
+  			rl.prompt();
+  	})
 };
 /*
 exports.playCmd = rl => {
