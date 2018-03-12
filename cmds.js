@@ -216,6 +216,61 @@ exports.editCmd=(rl,id)=>{
 };
 
 exports.playCmd = rl => {
+     let score = 0;
+     var i;
+     let toBePlayed =[];
+     
+     const playOne = () =>{
+      return new Promise (function (resolve,reject) {
+      if(toBePlayed.length === 0){
+      //Mensaje final del play
+      log("Fin");
+      log(` No hay más preguntas`);
+      log(` Examen finalizado con : ${score} puntos`);
+      biglog(score, 'magenta');
+      resolve();
+      return;
+      }
+
+      let pos = Math.floor(Math.random()*(toBePlayed.length-1));
+      let quiz = toBePlayed[pos];
+      toBePlayed.splice(pos,1);
+      
+      makeQuestion(rl,quiz.question)
+      .then(answer => {
+        answer= answer.toLowerCase().trim();
+        if (answer === quiz.answer.toLowerCase().trim()){
+          score ++;                    
+          log(` correct `);
+          log(`Lleva  ${score}  aciertos`);
+          resolve(playOne());
+        }else{
+          log("incorrect");
+          log("Fin ");
+          log ("Aciertos: ");
+          biglog(`${score}`, 'magenta'); 
+          resolve();         
+        }
+      });
+    });
+  }
+
+    models.quiz.findAll({raw : true})
+    .then(quizzes => {
+      toBePlayed = quizzes;
+    })
+    .then(() => {
+      return playOne();
+    })
+    .catch(e =>{
+      errorlog("Error" +e);
+    })
+    .then(()=>{
+      rl.prompt();
+    });
+};
+/*
+exports.playCmd = rl => {
 
   		let score = 0; //acumulov el resultado
   		let toBePlayed = []; //array a rellenar con todas las preguntas de la BBDD. Como se consigue? Con una promesa
@@ -264,73 +319,9 @@ exports.playCmd = rl => {
   			biglog(score, 'blue');
   			rl.prompt();
   		})
-}
-
-/*exports.playCmd=rl=>{
-    let score = 0;
-
-    let toBeResolved = [];
-
-    let i=0;
-
-    for (i= 0; i<model.getAll().length;i++){
-        toBeResolved[i]=model.getByIndex(i);
-    }
-
-    const playOne = ()=>{
-     return new Promise ((resolve, reject)=> {
-   
-    if (toBeResolved.length===0) {
-        errorlog('No hay nada más que preguntar');
-        log('Fin del examen. Aciertos:');
-                resolve();
-                return;
-    }
-
-    }else {
-        let indice = Math.floor(Math.random()*(toBeResolved.length))
-
-        let quiz= toBeResolved[indice];
-        
-        makeQuestion(rl,quiz.question)
-        .then(answer => {)
-
-            if (resp===quiz.answer){
-                
-             log(`CORRECTO - Lleva  ${colorize(score++,'magenta')} aciertos`);
-             score++;
-                
-             resolve(playOne());
-
-            } else{
-            log(`INCORRECTO`);    
-            log(`Fin del juego. Aciertos:  ${score}` );
-
-                resolve();
-        }
-
-        });
-    });
-}
-
-models.quiz.findAll({raw: true}) //el raw hace que enseñe un string solamente en lugar de todo el contenido
-  		.then(quizzes => {
-  			toBeResolved= quizzes;
-      })
-  		.then(() => {
-  		 	return playOne(); //es necesario esperar a que la promesa acabe, por eso no es un return a secas
-  		 })
-  		.catch(e => {
-  			errorlog("Error:" + e); //usar errorlog con colores
-  		})
-  		.then(() => {
-  			biglog(score, 'blue');
-  			rl.prompt();
-  		});
 }*/
 
-   // log('Jugar.','red');
-   // rl.prompt();
+
 
 
 
